@@ -21,23 +21,20 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: true, // 🔥 important
+    origin: true, 
     credentials: true,
   })
 );
 
-// ✅ API routes FIRST
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
-// ✅ FRONTEND SERVE (ONLY ONCE)
 app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
 });
 
-// start server
 server.listen(PORT, () => {
   console.log("Server running on port " + PORT);
   connectDB();

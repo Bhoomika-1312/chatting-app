@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useChatStore } from "../store/useChatStore";
 import { useAuthStore } from "../store/useAuthStore";
-import SidebarSkeleton from "./skeletons/SidebarSkeleton";
 import { Users, Search, UserPlus } from "lucide-react";
 
 const Sidebar = () => {
@@ -41,7 +40,19 @@ const Sidebar = () => {
   const activeList = searchQuery.trim() ? searchResults : filteredFriends;
   const isSearchMode = searchQuery.trim().length > 0;
 
-  if (isFriendsLoading) return <SidebarSkeleton />;
+  if (isFriendsLoading) return (
+    <aside className="h-full w-full lg:w-80 border-r border-base-300 flex flex-col transition-all duration-200">
+      <div className="border-b border-base-300 w-full p-5">
+        <div className="flex items-center gap-2">
+          <Users className="size-6" />
+          <span className="font-medium hidden lg:block">Friends</span>
+        </div>
+      </div>
+      <div className="flex-1 flex items-center justify-center">
+        <div className="text-base-content/70">Loading friends...</div>
+      </div>
+    </aside>
+  );
 
   return (
     <aside className="h-full w-full lg:w-80 border-r border-base-300 flex flex-col transition-all duration-200">
