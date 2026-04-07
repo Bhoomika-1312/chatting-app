@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "cd frontend && npm install && npm run build",
-    "start": "cd backend && npm install && npm start"
+    "build": "cd frontend && npm install --include=dev && npm run build",
+    "start": "cd backend && npm start"
   },
   "keywords": [],
   "author": "Rounik Mondal",
