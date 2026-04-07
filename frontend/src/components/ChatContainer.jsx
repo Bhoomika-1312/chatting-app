@@ -1,6 +1,6 @@
 import { useChatStore } from "../store/useChatStore";
 import { useEffect, useRef } from "react";
-import { Check, CheckCircle2 } from "lucide-react";
+import { Check } from "lucide-react";
 
 import ChatHeader from "./ChatHeader";
 import MessageInput from "./MessageInput";
@@ -73,17 +73,8 @@ const ChatContainer = () => {
               </time>
               {message.senderId === authUser._id && (
                 <span className="flex items-center gap-1 text-xs text-zinc-400">
-                  {message.seen ? (
-                    <>
-                      <CheckCircle2 className="size-4 text-sky-500" />
-                      Read
-                    </>
-                  ) : (
-                    <>
-                      <Check className="size-4" />
-                      Sent
-                    </>
-                  )}
+                  <Check className="size-4" />
+                  <span>Sent</span>
                 </span>
               )}
             </div>

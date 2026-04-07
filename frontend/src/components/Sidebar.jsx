@@ -15,6 +15,7 @@ const Sidebar = () => {
     searchResults,
     isSearchLoading,
     addFriend,
+    sendFriendRequest,
   } = useChatStore();
 
   const { onlineUsers } = useAuthStore();
@@ -119,11 +120,11 @@ const Sidebar = () => {
             {isSearchMode && (
               <button
                 type="button"
-                onClick={() => addFriend(user._id)}
+                onClick={() => sendFriendRequest(user._id)}
                 className="btn btn-xs gap-2"
               >
                 <UserPlus className="size-4" />
-                Add
+                Request
               </button>
             )}
           </div>

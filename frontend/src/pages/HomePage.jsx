@@ -1,11 +1,22 @@
 import { useChatStore } from "../store/useChatStore";
+import { useEffect } from "react";
 
 import Sidebar from "../components/Sidebar";
 import NoChatSelected from "../components/NoChatSelected";
 import ChatContainer from "../components/ChatContainer";
 
 const HomePage = () => {
-  const { selectedUser } = useChatStore();
+  const { selectedUser, subscribeToFriendEvents, unsubscribeFromFriendEvents, getPendingRequests } = useChatStore();
+
+  useEffect(() => {
+    // Fetch pending requests on mount
+    getPendingRequests();
+    subscribeToFriendEvents();
+
+    return () => {
+      unsubscribeFromFriendEvents();
+    };
+  }, [subscribeToFriendEvents, unsubscribeFromFriendEvents, getPendingRequests]);
 
   return (
     <div className="h-screen bg-base-200">

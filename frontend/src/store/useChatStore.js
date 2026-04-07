@@ -11,6 +11,8 @@ export const useChatStore = create((set, get) => ({
   isFriendsLoading: false,
   isMessagesLoading: false,
   isSearchLoading: false,
+  pendingRequests: [],
+  isPendingRequestsLoading: false,
 
   getFriends: async () => {
     set({ isFriendsLoading: true });
@@ -98,6 +100,67 @@ export const useChatStore = create((set, get) => ({
   unsubscribeFromMessages: () => {
     const socket = useAuthStore.getState().socket;
     socket.off("newMessage");
+  },
+
+  subscribeToFriendEvents: () => {
+    const socket = useAuthStore.getState().socket;
+    if (!socket) return;
+
+    socket.on("friendRequestAccepted", (data) => {
+      set({ friends: [...get().friends, data.user] });
+    });
+  },
+
+  unsubscribeFromFriendEvents: () => {
+    const socket = useAuthStore.getState().socket;
+    socket.off("friendRequestAccepted");
+  },
+
+  getPendingRequests: async () => {
+    set({ isPendingRequestsLoading: true });
+    try {
+      const res = await axiosInstance.get("/auth/requests");
+      set({ pendingRequests: res.data });
+    } catch (error) {
+      console.error("Error fetching pending requests:", error);
+      toast.error(error.response?.data?.message || "Failed to load requests");
+    } finally {
+      set({ isPendingRequestsLoading: false });
+    }
+  },
+
+  sendFriendRequest: async (userId) => {
+    try {
+      await axiosInstance.post("/auth/send-request", { userId });
+      toast.success("Friend request sent");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to send friend request");
+    }
+  },
+
+  acceptFriendRequest: async (requestId) => {
+    try {
+      await axiosInstance.put(`/auth/accept-request/${requestId}`);
+      set({
+        pendingRequests: get().pendingRequests.filter((req) => req._id !== requestId),
+      });
+      await get().getFriends();
+      toast.success("Friend request accepted");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to accept request");
+    }
+  },
+
+  rejectFriendRequest: async (requestId) => {
+    try {
+      await axiosInstance.put(`/auth/reject-request/${requestId}`);
+      set({
+        pendingRequests: get().pendingRequests.filter((req) => req._id !== requestId),
+      });
+      toast.success("Friend request rejected");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to reject request");
+    }
   },
 
   setSelectedUser: (selectedUser) => set({ selectedUser }),
