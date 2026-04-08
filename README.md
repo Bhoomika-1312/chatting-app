@@ -33,11 +33,6 @@ A full-featured real-time chat application built with the MERN stack (MongoDB, E
 - **Bcrypt**: Password hashing
 - **CORS**: Cross-origin resource sharing
 
-## System Architecture
-
-### High-Level Overview
-
-![1745675735344](system_designs/README/1745675735344.png)
 
 ### Authentication Flow
 
@@ -74,8 +69,6 @@ sequenceDiagram
    - UI updates in real-time
 4. Online status updates broadcast to relevant users
 
-![1745675688854](system_designs/README/1745675688854.png)
-
 ### File Upload Flow
 
 1. Client selects system_designs
@@ -83,8 +76,6 @@ sequenceDiagram
 3. Cloudinary returns secure URL
 4. URL included in message payload
 5. Message processed normally
-
-![1745676261169](system_designs/README/1745676261169.png)
 
 ### Socket Events
 
@@ -203,17 +194,3 @@ npm start
 - [ ] Set secure cookie flags for production
 - [ ] Implement proper logging
 - [ ] Set up monitoring/alerting
-
-## Contributing
-
-Contributions are welcome! Please follow these guidelines:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
----
-**Note:** *Some Documentations are yet to be updated*
-**Feel free to drop a star!! Happy Coding!** 🚀
